@@ -1,0 +1,55 @@
+<div>
+    <div class="space-y-6">
+        <div class="flex items-center justify-between">
+            <div>
+                <flux:heading>Enroll Member to Class</flux:heading>
+                <flux:subheading>Select a member and a class</flux:subheading>
+            </div>
+            <flux:button variant="ghost" :href="route('enrollments.index')" wire:navigate>
+                Back to List
+            </flux:button>
+        </div>
+
+        @if (session()->has('message'))
+            <div class="p-4 rounded-lg bg-green-100 dark:bg-green-900/20 border border-green-200 dark:border-green-800 text-green-800 dark:text-green-200">
+                {{ session('message') }}
+            </div>
+        @endif
+
+        @if (session()->has('error'))
+            <div class="p-4 rounded-lg bg-red-100 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-800 dark:text-red-200">
+                {{ session('error') }}
+            </div>
+        @endif
+
+        <div class="rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 p-6">
+            <form wire:submit="store" class="space-y-6">
+                <flux:select wire:model="member_id" :label="__('Member')" required>
+                    <option value="">Select a member</option>
+                    @foreach ($members as $member)
+                        <option value="{{ $member->id }}">{{ $member->name }}</option>
+                    @endforeach
+                </flux:select>
+                @error('member_id') <flux:error>{{ $message }}</flux:error> @enderror
+
+                <flux:select wire:model="class_id" :label="__('Class')" required>
+                    <option value="">Select a class</option>
+                    @foreach ($classes as $class)
+                        <option value="{{ $class->id }}">{{ $class->name }} - {{ $class->instructor }}</option>
+                    @endforeach
+                </flux:select>
+                @error('class_id') <flux:error>{{ $message }}</flux:error> @enderror
+
+                <div class="flex justify-end space-x-2 rtl:space-x-reverse">
+                    <flux:button variant="ghost" type="button" :href="route('enrollments.index')" wire:navigate>
+                        Cancel
+                    </flux:button>
+                    <flux:button variant="primary" type="submit">Enroll</flux:button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
