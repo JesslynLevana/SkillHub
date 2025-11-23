@@ -50,11 +50,11 @@ class MsMember extends Component
     {
         // tutup dl modal detail kalau kebuka
         $this->dispatch('modal-close', name: 'detail-member');
-        
+
         $this->id = (int) $id;
         $this->edit($this->id);
         $this->resetErrorBag();
-        
+
         $this->dispatch('modal-show', name: 'edit-member');
     }
 
@@ -62,7 +62,7 @@ class MsMember extends Component
     {
         $this->id = (int) $id;
         $this->details = MasterMember::with('classes')->findOrFail($this->id);
-        
+
         $this->dispatch('modal-show', name: 'detail-member');
     }
 
@@ -76,7 +76,17 @@ class MsMember extends Component
     public function store()
     {
         $validated = $this->validate();
-        
+
+        if (MasterMember::where('email', $this->email)->exists()) {
+            $this->addError('email', 'This email already exists.');
+            return;
+        }
+
+        if (MasterMember::where('phone', $this->phone)->exists()) {
+            $this->addError('phone', 'This phone number already exists.');
+            return;
+        }
+
         if (
             MasterMember::where('name', $this->name)
                 ->where('email', $this->email)
