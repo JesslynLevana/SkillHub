@@ -1,0 +1,53 @@
+@startuml
+' Models
+class MsClass {
+    +id: int
+    +name: string
+    +description: string
+    +instructor: string
+    +members(): BelongsToMany
+}
+class MsMember {
+    +id: int
+    +name: string
+    +email: string
+    +classes(): BelongsToMany
+}
+
+' Livewire Components (Controllers)
+class MsClassController {
+    +render()
+    +store()
+    +openDetailModal(id)
+}
+class TrClassMemberController {
+    +render()
+    +layout()
+}
+
+' Views
+class BladeView {
+    <<abstract>>
+}
+class ms-class-index extends BladeView
+class tr-class-member-create extends BladeView
+class tr-class-member-create-multiple extends BladeView
+
+' Relationships
+MsClass "1" -- "many" MsMember : members
+MsMember "1" -- "many" MsClass : classes
+
+MsClassController ..> MsClass : uses
+MsClassController ..> ms-class-index : renders
+MsClassController ..> MsMember : uses
+
+TrClassMemberController ..> MsClass : uses
+TrClassMemberController ..> MsMember : uses
+TrClassMemberController ..> tr-class-member-create : renders
+TrClassMemberController ..> tr-class-member-create-multiple : renders
+
+ms-class-index --|> BladeView
+tr-class-member-create --|> BladeView
+tr-class-member-create-multiple --|> BladeView
+
+@enduml
