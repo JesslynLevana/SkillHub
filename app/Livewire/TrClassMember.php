@@ -19,7 +19,7 @@ class TrClassMember extends Component
     public $filter_member_id = null;
     public $filter_class_id = null;
     public $view_mode = 'member_classes';
-    public $action = 'index'; // index, create, create-multiple
+    public $action = 'index'; 
     public $unenroll_member_id = null;
     public $unenroll_class_id = null;
 
@@ -57,15 +57,11 @@ class TrClassMember extends Component
                 'classes' => $classes,
             ]);
         }
-        
-        // Default: index
-        // Get all members with their classes for member_classes view
+
         $allMembersWithClasses = MsMember::with('classes')->orderBy('name', 'asc')->get();
         
-        // Get all classes with their members for class_members view
         $allClassesWithMembers = MsClass::with('members')->orderBy('name', 'asc')->get();
         
-        // Filter data if filter is selected
         if ($this->view_mode === 'member_classes') {
             if ($this->filter_member_id) {
                 $allMembersWithClasses = $allMembersWithClasses->filter(function($member) {
@@ -97,7 +93,6 @@ class TrClassMember extends Component
 
         $member = MsMember::find($this->member_id);
 
-        // Check if already enrolled
         if ($member->classes()->where('ms_classes.id', $this->class_id)->exists()) {
             $this->addError('class_id', 'Member is already enrolled in this class!');
             return;
@@ -119,7 +114,6 @@ class TrClassMember extends Component
 
         $member = MsMember::find($this->member_id);
         
-        // Get classes that member is not already enrolled in
         $newClasses = collect($this->class_ids)->filter(function ($classId) use ($member) {
             return !$member->classes()->where('ms_classes.id', $classId)->exists();
         });
