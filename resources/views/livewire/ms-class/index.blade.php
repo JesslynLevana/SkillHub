@@ -24,7 +24,7 @@
                     <thead>
                         <tr class="border-b border-zinc-200 dark:border-zinc-700">
                             <th class="px-4 py-3 text-left text-sm font-semibold">No</th>
-                            <th class="px-4 py-3 text-left text-sm font-semibold">Name</th>
+                            <th class="px-4 py-3 text-left text-sm font-semibold">Class Name</th>
                             <th class="px-4 py-3 text-left text-sm font-semibold">Instructor</th>
                             <th class="px-4 py-3 text-left text-sm font-semibold">Actions</th>
                         </tr>

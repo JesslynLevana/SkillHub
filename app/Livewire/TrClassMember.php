@@ -36,11 +36,6 @@ class TrClassMember extends Component
         }
     }
 
-    public function layout()
-    {
-        return 'components.layouts.app';
-    }
-
     public function render()
     {
         $members = MsMember::orderBy('name', 'asc')->get();
