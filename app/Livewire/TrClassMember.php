@@ -155,6 +155,6 @@ class TrClassMember extends Component
         $this->unenroll_member_id = null;
         $this->unenroll_class_id = null;
         session()->flash('message', 'Member unenrolled successfully!');
-        Flux::modal("confirm-unenroll")->close();
+        $this->dispatch('modal-close', name: 'confirm-unenroll');
     }
 }
